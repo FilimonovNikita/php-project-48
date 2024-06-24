@@ -1,6 +1,6 @@
 #!/usr/bin/env php
-
 <?php
+use function Diff\src\Differ\genDiff;
 
 $autoloadPathCloud = __DIR__ . '/../../../autoload.php';
 $autoloadPathLocal = __DIR__ . '/../vendor/autoload.php';
@@ -24,6 +24,12 @@ Options:
   --format <fmt>                Report format [default: stylish]
 DOC;
 
-$args = Docopt::handle($doc, array('version'=>'Naval Fate 2.0'));
+$args = Docopt::handle($doc, array('version'=>'gendiff 1.0'));
 foreach ($args as $k=>$v)
     echo $k.': '.json_encode($v).PHP_EOL;
+//$x = "C:\project\projectBeta\php-project-48\Test\test1.json";
+//$y = "C:\project\projectBeta\php-project-48\Test\test2.json)";
+//$difff = genDiff($x, $y);
+$diff = genDiff($args->args['<firstFile>'], $args->args['<secondFile>'], $args->args['--format']);
+print_r($diff);
+print_r($diff);

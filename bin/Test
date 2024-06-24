@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+$autoloadPathCloud = __DIR__ . '/../../../autoload.php';
+$autoloadPathLocal = __DIR__ . '/../vendor/autoload.php';
+
+if (file_exists($autoloadPathCloud)){
+    require_once $autoloadPathCloud;
+} else {
+    require_once $autoloadPathLocal;
+}
+
+use Diff\src\Differ\genDiff;
+$x = "C:\project\projectBeta\php-project-48\Test\test1.json";
+$y = "C:\project\projectBeta\php-project-48\Test\test2.json";
+$diff = genDiff($x, $y);
+print_r ($x);
+print_r ($y);
+print_r ("xxxxxxx");
+//print_r($diff);
