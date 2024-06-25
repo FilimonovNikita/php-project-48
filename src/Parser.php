@@ -1,9 +1,9 @@
 <?php
 
-namespace Diff\Src\Parser;
+namespace Differ\Parser;
 
-function getParser (string $content, string $extention){
+function getParse (string $content, string $extention){
     if ($extention == "json"){
-        return json_decode($content);
+        return json_decode($content, true);
     }
 }

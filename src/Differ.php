@@ -1,7 +1,7 @@
 <?php
 
-namespace Diff\src\Differ;
-use function Diff\Src\Parser\getParse;
+namespace Differ\Differ;
+use function Differ\Parser\getParse;
 
 function genDiff (string $pathToFile1, string $pathToFile2)
 {
@@ -14,30 +14,43 @@ function getDiftree($data1, $data2)
 {
     $result = [];
 
-    foreach ($data1 as $key => $value) {
-        if (!array_key_exists($key, $data2)) {
-            $result[] = "- $key: $value";
-        } elseif ($value !== $data2[$key]) {
-            $result[] = "- $key: $value";
-            $result[] = "+ $key: " . $data2[$key];
-        }
-    }
+    $keys = array_unique(array_merge(array_keys($data1), array_keys($data2)));
+    sort($keys);
 
-    foreach ($data2 as $key => $value) {
+    foreach ($keys as $key) {
         if (!array_key_exists($key, $data1)) {
-            $result[] = "+ $key: $value";
+            $result[] = "+ {$key}: " . stringify($data2[$key]);
+        } elseif (!array_key_exists($key, $data2)) {
+            $result[] = "- {$key}: " . stringify($data1[$key]);
+        } elseif ($data1[$key] !== $data2[$key]) {
+            $result[] = "- {$key}: " . stringify($data1[$key]);
+            $result[] = "+ {$key}: " . stringify($data2[$key]);
+        }elseif ($data1[$key] == $data2[$key]) {
+            $result[] = "  {$key}: " . stringify($data2[$key]);
         }
     }
     return $result;
 }
 
-function getFileContent (string $path) 
+function stringify($value): string
 {
-    if (is_readable($path)) {
-        return file_get_contents($path);
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
     }
+    if (is_array($value)) {
+        return json_encode($value);
+    }
+    return (string)$value;
+}
+
+function getFileContent (string $path) 
+{   
+    if (!is_readable($path)) {
+        throw new \Exception("File '{$path}' is not readable or does not exist.");
+    }
+    return file_get_contents($path);
 }
 function getExtension ($path1)
 {
-    return pathinfo($path1, PATHINFO_EXTENSION);
+    return pathinfo($path1, $flags = PATHINFO_EXTENSION);
 }

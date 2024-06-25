@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
-use function Diff\src\Differ\genDiff;
+
+use function Differ\Differ\genDiff;
 
 $autoloadPathCloud = __DIR__ . '/../../../autoload.php';
 $autoloadPathLocal = __DIR__ . '/../vendor/autoload.php';
@@ -24,12 +25,11 @@ Options:
   --format <fmt>                Report format [default: stylish]
 DOC;
 
-$args = Docopt::handle($doc, array('version'=>'gendiff 1.0'));
-foreach ($args as $k=>$v)
-    echo $k.': '.json_encode($v).PHP_EOL;
-//$x = "C:\project\projectBeta\php-project-48\Test\test1.json";
-//$y = "C:\project\projectBeta\php-project-48\Test\test2.json)";
-//$difff = genDiff($x, $y);
-$diff = genDiff($args->args['<firstFile>'], $args->args['<secondFile>'], $args->args['--format']);
-print_r($diff);
-print_r($diff);
+$params = ['version' => 'Differ 1.0.0'];
+$args = Docopt::handle($doc, $params);
+
+$pathToFile1 = $args['<firstFile>'];
+$pathToFile2 = $args['<secondFile>'];
+$format = $args['--format'];
+
+print_r(genDiff($pathToFile1, $pathToFile2, $format));
