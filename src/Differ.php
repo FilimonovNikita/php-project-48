@@ -1,9 +1,10 @@
 <?php
 
 namespace Differ\Differ;
+
 use function Differ\Parser\getParse;
 
-function genDiff (string $pathToFile1, string $pathToFile2)
+function genDiff(string $pathToFile1, string $pathToFile2)
 {
     $structer1 = getParse(getFileContent($pathToFile1), getExtension($pathToFile1)); // content of file in php format
     $structer2 = getParse(getFileContent($pathToFile2), getExtension($pathToFile2));
@@ -17,8 +18,6 @@ function genDiff (string $pathToFile1, string $pathToFile2)
     }
     $result .= "}";
     return $result;
-    
-    //return $result;
 }
 function getDiftree($data1, $data2)
 {
@@ -35,7 +34,7 @@ function getDiftree($data1, $data2)
         } elseif ($data1[$key] !== $data2[$key]) {
             $result[] = "- {$key}: " . stringify($data1[$key]);
             $result[] = "+ {$key}: " . stringify($data2[$key]);
-        }elseif ($data1[$key] == $data2[$key]) {
+        } elseif ($data1[$key] == $data2[$key]) {
             $result[] = "  {$key}: " . stringify($data2[$key]);
         }
     }
@@ -53,14 +52,14 @@ function stringify($value): string
     return (string)$value;
 }
 
-function getFileContent (string $path) 
-{   
+function getFileContent(string $path)
+{
     if (!is_readable($path)) {
         throw new \Exception("File '{$path}' is not readable or does not exist.");
     }
     return file_get_contents($path);
 }
-function getExtension ($path1)
+function getExtension($path1)
 {
     return pathinfo($path1, $flags = PATHINFO_EXTENSION);
 }
