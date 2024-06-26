@@ -8,7 +8,17 @@ function genDiff (string $pathToFile1, string $pathToFile2)
     $structer1 = getParse(getFileContent($pathToFile1), getExtension($pathToFile1)); // content of file in php format
     $structer2 = getParse(getFileContent($pathToFile2), getExtension($pathToFile2));
     $result = getDiftree($structer1, $structer2);
+    $diffArray = $result;
+
+    // Преобразование массива в строку
+    $result = "{\n";
+    foreach ($diffArray as $line) {
+        $result .= "  $line\n";
+    }
+    $result .= "}";
     return $result;
+    
+    //return $result;
 }
 function getDiftree($data1, $data2)
 {
