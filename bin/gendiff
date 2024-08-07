@@ -1,23 +1,26 @@
 #!/usr/bin/env php
 <?php
+$autoloadPath1 = __DIR__ . '/../../../autoload.php';
+$autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
 
-use function Differ\Differ\genDiff;
-
-$autoloadPathCloud = __DIR__ . '/../../../autoload.php';
-$autoloadPathLocal = __DIR__ . '/../vendor/autoload.php';
-
-if (file_exists($autoloadPathCloud)){
-    require_once $autoloadPathCloud;
+if (file_exists($autoloadPath1)) {
+    require_once $autoloadPath1;
 } else {
-    require_once $autoloadPathLocal;
+    require_once $autoloadPath2;
 }
 
+use function \Differ\Differ\genDiff;
+
+
 $doc = <<<DOC
+gendiff -h
+
 Generate diff
-Usage: 
-    gendiff (-h|--help)
-    gendiff (-v|--version)
-    gendiff [--format <fmt>] <firstFile> <secondFile>
+
+Usage:
+  gendiff (-h|--help)
+  gendiff (-v|--version)
+  gendiff [--format <fmt>] <firstFile> <secondFile>
 
 Options:
   -h --help                     Show this screen
@@ -25,11 +28,9 @@ Options:
   --format <fmt>                Report format [default: stylish]
 DOC;
 
-$params = ['version' => 'Differ 1.0.0'];
-$args = Docopt::handle($doc, $params);
 
-$pathToFile1 = $args['<firstFile>'];
-$pathToFile2 = $args['<secondFile>'];
-$format = $args['--format'];
-
-print_r(genDiff($pathToFile1, $pathToFile2, $format));
+$args = Docopt::handle($doc, array('version' => 'gendiff 1.0'));
+$firstFilePath = $args['<firstFile>'];
+$secondFilePath = $args['<secondFile>'];
+$formatName = $args['--format'];
+print_r(Differ\Differ\genDiff($firstFilePath, $secondFilePath, $formatName));

@@ -2,9 +2,17 @@
 
 namespace Differ\Parser;
 
-function getParse(string $content, string $extention)
+use Symfony\Component\Yaml\Yaml;
+
+function getParse(string $content, string $extension)
 {
-    if ($extention == "json") {
-        return json_decode($content, true);
+    switch ($extension) {
+        case 'json':
+            return json_decode($content, true);
+        case 'yaml':
+        case 'yml':
+            return Yaml::parse($content);
+        default:
+            throw new \Exception("Unsupported file extension: {$extension}");
     }
 }
