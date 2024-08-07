@@ -7,11 +7,3 @@
 
 
 
-The fifth step 
-
-[![asciicast](https://asciinema.org/a/bsm6dbt4ComI026abuEjCPzBv.svg)](https://asciinema.org/a/bsm6dbt4ComI026abuEjCPzBv)
-
-The project demonstrates the construction of two diff files and its output in various formats specified in the terminal.
-By default, the specified Stylish format is used. It is also supposed to output Plain and Json formats.
-
-[![asciicast](https://asciinema.org/a/yZ8BBwSu3GwzaAjub7jPOJWyO.svg)](https://asciinema.org/a/yZ8BBwSu3GwzaAjub7jPOJWyO)
